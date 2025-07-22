@@ -1,0 +1,36 @@
+﻿@model ReciPick.Domain.DomainModels.Ingredient
+
+@{
+    ViewData["Title"] = "Ingredient Details";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h3 class="card-title text-center mb-4">🥕 Ingredient Details</h3>
+
+                    <dl class="row">
+                        <dt class="col-sm-4">Name</dt>
+                        <dd class="col-sm-8">@Model.Name</dd>
+
+                        <dt class="col-sm-4">Amount</dt>
+                        <dd class="col-sm-8">@Model.Amount</dd>
+
+                        <dt class="col-sm-4">Unit</dt>
+                        <dd class="col-sm-8">@Model.Unit</dd>
+
+                        <dt class="col-sm-4">Recipe</dt>
+                        <dd class="col-sm-8">@Model.Recipe?.Title</dd>
+                    </dl>
+
+                    <div class="text-center mt-4">
+                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary rounded-pill px-4">Edit</a>
+                        <a asp-action="Index" class="btn btn-secondary rounded-pill ms-2 px-4">Back to List</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

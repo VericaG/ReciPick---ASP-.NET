@@ -1,0 +1,45 @@
+﻿@model IEnumerable<ReciPick.Domain.DomainModels.Order>
+
+@{
+    ViewData["Title"] = "Order History";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4 fw-bold text-dark">📦 Order History</h2>
+
+    @if (Model.Any())
+    {
+        <div class="row">
+            @foreach (var order in Model)
+            {
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary">🧾 Order #@order.Id.ToString().Substring(0, 8)</h5>
+                            <ul class="list-unstyled small mb-3">
+                                <li><strong>🗓 Date:</strong> @order.DateOrdered?.ToString("MMM dd, yyyy HH:mm")</li>
+                                <li><strong>💰 Total:</strong> @order.TotalAmount?.ToString("C")</li>
+                                <li><strong>🍴 Items:</strong> @(order.Items?.Count() ?? 0)</li>
+                            </ul>
+                            <a asp-action="Details" asp-route-id="@order.Id" class="btn btn-outline-primary btn-sm rounded-pill">🔍 View Details</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="text-center mt-5">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h3 class="text-muted">No Orders Found</h3>
+                    <p class="text-secondary">You haven't placed any orders yet.</p>
+                    <a asp-controller="Recipes" asp-action="Index" class="btn btn-success rounded-pill px-4">
+                        🍽️ Browse Recipes
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

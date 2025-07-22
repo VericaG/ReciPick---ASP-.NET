@@ -1,0 +1,81 @@
+﻿@model ReciPick.Domain.DomainModels.ShoppingCart
+
+@{
+    ViewData["Title"] = "Shopping Cart";
+}
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-dark">🛒 Shopping Cart</h2>
+        @if (Model.Items != null && Model.Items.Any())
+        {
+            <form asp-action="ClearCart" method="post" class="d-inline">
+                <button type="submit" class="btn btn-outline-danger rounded-pill"
+                        onclick="return confirm('Are you sure you want to clear the cart?')">
+                    🧹 Clear Cart
+                </button>
+            </form>
+        }
+    </div>
+
+    @if (Model.Items != null && Model.Items.Any())
+    {
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table align-middle table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>🧂 Ingredient</th>
+                                <th>Amount</th>
+                                <th>Unit</th>
+                                <th>Price</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Items)
+                            {
+                                <tr>
+                                    <td>@item.Ingredient?.Name</td>
+                                    <td>@item.Amount</td>
+                                    <td>@item.Unit</td>
+                                    <td>@(item.Ingredient?.Price?.ToString("C") ?? "N/A")</td>
+                                    <td>@(((item.Amount ?? 0) * (item.Ingredient?.Price ?? 0)).ToString("C"))</td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot class="table-light">
+                            <tr class="fw-bold">
+                                <td colspan="4" class="text-end">Total:</td>
+                                <td>@ViewBag.Total.ToString("C")</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <div class="text-end mt-4">
+                    <form asp-controller="Orders" asp-action="CreateOrder" method="post">
+                        <button type="submit" class="btn btn-success btn-lg rounded-pill px-4">
+                            ✅ Place Order
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="text-center mt-5">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h3 class="text-muted">🛍️ Your cart is empty</h3>
+                    <p class="text-secondary">Add some recipes to your cart to get started!</p>
+                    <a asp-controller="Recipes" asp-action="Index" class="btn btn-primary rounded-pill px-4">
+                        🍽️ Browse Recipes
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

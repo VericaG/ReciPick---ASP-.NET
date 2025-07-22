@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Title"] = "Create Order";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h2 class="card-title mb-4">🧾 Confirm Order</h2>
+
+                    <form method="post" asp-controller="Orders" asp-action="CreateOrder">
+                        <button type="submit" class="btn btn-success btn-lg rounded-pill">✔️ Place Order</button>
+                    </form>
+
+                    @if (TempData["Error"] != null)
+                    {
+                        <div class="alert alert-danger mt-3">@TempData["Error"]</div>
+                    }
+
+                    @if (TempData["Message"] != null)
+                    {
+                        <div class="alert alert-success mt-3">@TempData["Message"]</div>
+                    }
+
+                    <a asp-controller="ShoppingCarts" asp-action="Index" class="btn btn-outline-secondary btn-sm mt-3 rounded-pill">🛒 Back to Cart</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Order Success";
+}
+
+<div class="text-center">
+    <h1 class="display-4 text-success">Order Placed Successfully!</h1>
+    <div class="alert alert-success">
+        <h4>Thank you for your order!</h4>
+        <p>Your order #@ViewBag.OrderId has been placed and is being processed.</p>
+        <p>You will receive a confirmation email shortly.</p>
+    </div>
+
+    <div class="mt-4">
+        <a asp-controller="Recipes" asp-action="Index" class="btn btn-primary">Continue Shopping</a>
+        <a asp-controller="ShoppingCarts" asp-action="Index" class="btn btn-secondary">View Cart</a>
+    </div>
+</div>
