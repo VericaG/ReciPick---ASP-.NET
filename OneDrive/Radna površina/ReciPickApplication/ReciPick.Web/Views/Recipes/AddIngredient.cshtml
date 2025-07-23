@@ -4,44 +4,48 @@
     ViewData["Title"] = "Add Ingredient";
 }
 
+<h2 class="mb-4">Add Ingredient</h2>
+
 <div class="row">
     <div class="col-md-8 offset-md-2">
         <div class="card shadow-sm rounded-4">
             <div class="card-body">
-                <h2 class="card-title mb-4">Add Ingredient</h2>
-
-                <form asp-action="AddIngredient" method="post">
+                <form asp-action="AddIngredient" method="post" novalidate>
                     <input type="hidden" name="recipeId" value="@ViewBag.RecipeId" />
 
                     <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
                     <div class="mb-3">
-                        <label asp-for="Name" class="form-label"></label>
-                        <input asp-for="Name" class="form-control" />
+                        <label asp-for="Name" class="form-label">Ingredient Name</label>
+                        <input asp-for="Name" class="form-control" placeholder="e.g. Tomato" />
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
 
                     <div class="mb-3">
-                        <label asp-for="Amount" class="form-label"></label>
-                        <input asp-for="Amount" class="form-control" type="number" step="0.01" />
+                        <label asp-for="Amount" class="form-label">Amount</label>
+                        <input asp-for="Amount" class="form-control" type="number" step="0.01" placeholder="e.g. 1.5" />
                         <span asp-validation-for="Amount" class="text-danger"></span>
                     </div>
 
                     <div class="mb-3">
-                        <label asp-for="Unit" class="form-label"></label>
-                        <input asp-for="Unit" class="form-control" />
+                        <label asp-for="Unit" class="form-label">Unit</label>
+                        <input asp-for="Unit" class="form-control" placeholder="e.g. kg, g, tbsp" />
                         <span asp-validation-for="Unit" class="text-danger"></span>
                     </div>
 
                     <div class="mb-3">
-                        <label asp-for="Price" class="form-label"></label>
-                        <input asp-for="Price" class="form-control" type="number" step="0.01" />
+                        <label asp-for="Price" class="form-label">Price (€)</label>
+                        <input asp-for="Price" class="form-control" type="number" step="0.01" placeholder="e.g. 2.99" />
                         <span asp-validation-for="Price" class="text-danger"></span>
                     </div>
 
                     <div class="d-flex justify-content-between mt-4">
-                        <button type="submit" class="btn btn-primary">Add Ingredient</button>
-                        <a asp-action="Details" asp-route-id="@ViewBag.RecipeId" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-plus-circle"></i> Add Ingredient
+                        </button>
+                        <a asp-action="Details" asp-route-id="@ViewBag.RecipeId" class="btn btn-outline-secondary">
+                            Cancel
+                        </a>
                     </div>
                 </form>
             </div>
@@ -50,7 +54,5 @@
 </div>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    @await Html.PartialAsync("_ValidationScriptsPartial")
 }

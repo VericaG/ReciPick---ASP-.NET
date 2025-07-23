@@ -4,76 +4,85 @@
     ViewData["Title"] = "Recipe Details";
 }
 
+<h2 class="mb-4">Recipe Details</h2>
+
 <div class="row">
-    <div class="col-md-8">
-        <div class="card">
+    <div class="col-md-8 mb-4">
+        <div class="card shadow-sm rounded-4">
             @if (!string.IsNullOrEmpty(Model.ImageUrl))
             {
-                <img src="@Model.ImageUrl" class="card-img-top" alt="@Model.Title">
+                <img src="@Model.ImageUrl"
+                     class="card-img-top rounded-top-4 img-fluid"
+                     alt="@Model.Title"
+                     style="object-fit: cover; height: 200px; max-height: 200px;" />
             }
             <div class="card-body">
-                <h1 class="card-title">@Model.Title</h1>
+                <h3 class="card-title mb-2">@Model.Title</h3>
+
                 @if (Model.Calories.HasValue)
                 {
-                    <p class="card-text"><strong>Calories:</strong> @Model.Calories</p>
+                    <p class="text-muted"><strong>Calories:</strong> @Model.Calories</p>
                 }
 
-                <div class="mt-4">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h3>Ingredients</h3>
-                        <a asp-action="AddIngredient" asp-route-recipeId="@Model.Id" class="btn btn-success">Add Ingredient</a>
-                    </div>
+                <hr />
 
-                    @if (Model.Ingredients != null && Model.Ingredients.Any())
-                    {
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="mb-0">Ingredients</h5>
+                    <a asp-action="AddIngredient" asp-route-recipeId="@Model.Id" class="btn btn-sm btn-success">+ Add Ingredient</a>
+                </div>
+
+                @if (Model.Ingredients != null && Model.Ingredients.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Amount</th>
+                                    <th>Unit</th>
+                                    <th>Price</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var ingredient in Model.Ingredients)
+                                {
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Amount</th>
-                                        <th>Unit</th>
-                                        <th>Price</th>
-                                        <th>Actions</th>
+                                        <td>@ingredient.Name</td>
+                                        <td>@ingredient.Amount</td>
+                                        <td>@ingredient.Unit</td>
+                                        <td>@(ingredient.Price?.ToString("C") ?? "N/A")</td>
+                                        <td>
+                                            <div class="d-flex">
+                                                <a asp-controller="Ingredients" asp-action="Edit" asp-route-id="@ingredient.Id" class="btn btn-sm btn-outline-warning me-2">Edit</a>
+                                                <a asp-controller="Ingredients" asp-action="Delete" asp-route-id="@ingredient.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                                            </div>
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var ingredient in Model.Ingredients)
-                                    {
-                                        <tr>
-                                            <td>@ingredient.Name</td>
-                                            <td>@ingredient.Amount</td>
-                                            <td>@ingredient.Unit</td>
-                                            <td>@(ingredient.Price?.ToString("C") ?? "N/A")</td>
-                                            <td>
-                                                <a asp-controller="Ingredients" asp-action="Edit" asp-route-id="@ingredient.Id" class="btn btn-sm btn-warning me-2">Edit</a>
-                                                <a asp-controller="Ingredients" asp-action="Delete" asp-route-id="@ingredient.Id" class="btn btn-sm btn-danger">Delete</a>
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted">No ingredients added yet.</p>
+                }
 
-                            </table>
-                        </div>
-                    }
-                    else
-                    {
-                        <p class="text-muted">No ingredients added yet.</p>
-                    }
-                </div>
+                <hr class="mt-4" />
 
-                <div class="mt-4">
-                    <form asp-action="AddToCart" method="post" class="d-inline">
-                        <input type="hidden" name="id" value="@Model.Id" />
-                        <button type="submit" class="btn btn-primary btn-lg">Add to Shopping Cart</button>
-                    </form>
-                </div>
+                <form asp-action="AddToCart" method="post" class="d-inline">
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <button type="submit" class="btn btn-primary">
+                        🛒 Add to Shopping Cart
+                    </button>
+                </form>
             </div>
         </div>
     </div>
 
     <div class="col-md-4">
-        <div class="card">
+        <div class="card shadow-sm rounded-4">
             <div class="card-body">
                 <h5 class="card-title">Actions</h5>
                 <div class="d-grid gap-2">
